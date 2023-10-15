@@ -1,5 +1,7 @@
 # Assignment
 
+# Please Go to [Getting started Guide](./Getting_started.md)
+
 Oh, hello!
 ---------
 First of all, awesome that you want to join our team! We already know that you're a cool person, but now we just want to know if you're a cool coder as well! To that end we've set up a basic exercise for you to complete.
