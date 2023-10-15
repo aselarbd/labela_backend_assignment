@@ -37,7 +37,7 @@ curl --location --request POST 'http://127.0.0.1:8000/api/v1/auth/signup' \
 - Then in every API call use this credentials
 ### Note that you need to set the email instead of the username for Basic Authentication.
 
-Example  you have to generate base64 encoding of `admin@auto.com:admin` -> `YWRtaW5AYXV0by5jb206YWRtaW4`.
+Example  you have to generate base64 encoding of `admin@auto.com:admin` -> `YWRtaW5AYXV0by5jb206YWRtaW4=`.
 
 From this point onwards, I will refer this as `BASIC_TOKEN`
 
