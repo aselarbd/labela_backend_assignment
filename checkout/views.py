@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -18,6 +19,7 @@ class CheckoutView(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CheckoutSerializer
 
+    @extend_schema(tags=["Checkout API"])
     def post(self, request: Request, *args, **kwargs):
         user_id = request.user.id
         sopping_cart_manager = ShoppingCartManager()

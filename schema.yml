@@ -1,0 +1,321 @@
+openapi: 3.0.3
+info:
+  title: Auto Company API
+  version: 1.0.0
+  description: This is the API documentation of Auto Company APIs.
+paths:
+  /api/v1/auth/signup:
+    post:
+      operationId: auth_signup_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUp'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SignUp'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SignUp'
+        required: true
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignUp'
+          description: ''
+  /api/v1/cart/:
+    get:
+      operationId: cart_retrieve
+      description: View for get and shopping cart
+      tags:
+      - cart
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/cart/add:
+    post:
+      operationId: cart_add_create
+      description: Add products to shopping cart
+      tags:
+      - cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cart'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cart'
+        required: true
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+          description: ''
+  /api/v1/cart/remove:
+    post:
+      operationId: cart_remove_create
+      description: Remove products from shopping cart
+      tags:
+      - cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cart'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cart'
+        required: true
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+          description: ''
+  /api/v1/checkout:
+    post:
+      operationId: checkout_create
+      description: Checkout items from shopping cart
+      tags:
+      - checkout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+        required: true
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checkout'
+          description: ''
+  /api/v1/products/:
+    get:
+      operationId: products_retrieve
+      description: View for creating and listing products
+      tags:
+      - products
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetails'
+          description: ''
+    post:
+      operationId: products_create
+      description: View for creating and listing products
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDetails'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductDetails'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductDetails'
+        required: true
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetails'
+          description: ''
+  /api/v1/products/{id}:
+    get:
+      operationId: products_retrieve_2
+      description: View for update, delete and get product by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetails'
+          description: ''
+    put:
+      operationId: products_update
+      description: View for update, delete and get product by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDetails'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductDetails'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductDetails'
+        required: true
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetails'
+          description: ''
+    delete:
+      operationId: products_destroy
+      description: View for update, delete and get product by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - basicAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        product:
+          type: integer
+      required:
+      - product
+    Checkout:
+      type: object
+      properties:
+        delivery_date:
+          type: string
+          format: date-time
+      required:
+      - delivery_date
+    ProductDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        available_quantity:
+          type: integer
+          default: 0
+        active:
+          type: boolean
+          default: true
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created
+      - description
+      - id
+      - name
+      - price
+    SignUp:
+      type: object
+      properties:
+        email:
+          type: string
+          maxLength: 80
+        username:
+          type: string
+          maxLength: 45
+        password:
+          type: string
+          writeOnly: true
+        user_type:
+          type: string
+          maxLength: 10
+      required:
+      - email
+      - password
+      - user_type
+      - username
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

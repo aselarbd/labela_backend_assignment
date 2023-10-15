@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "account",
     "cart",
     "checkout",
+    "drf_spectacular",
 ]
 
 REST_FRAMEWORK = {
@@ -49,6 +50,15 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Auto Company API",
+    "DESCRIPTION": "This is the API documentation of Auto Company APIs.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    # OTHER SETTINGS
 }
 
 AUTH_USER_MODEL = "account.User"
