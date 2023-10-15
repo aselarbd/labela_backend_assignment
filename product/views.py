@@ -6,8 +6,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from product.models import Product
 from product.serializers import ProductDetailsSerializer, ProductListSerializer
+from utils.logger import custom_logger
 
 # Create your views here.
+
+logger = custom_logger(__name__)
 
 
 class ProductListCreateView(APIView):
@@ -18,6 +21,7 @@ class ProductListCreateView(APIView):
 
     @extend_schema(tags=["Product API"])
     def get(self, request: Request, *args, **kwargs):
+        logger.info("ProductListCreateView getting all products")
         products = Product.objects.all()
         product_list_serializer = ProductListSerializer(instance=products, many=True)
 
@@ -25,6 +29,7 @@ class ProductListCreateView(APIView):
 
     @extend_schema(tags=["Product API"])
     def post(self, request: Request, *args, **kwargs):
+        logger.info("ProductListCreateView adding product")
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()

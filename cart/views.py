@@ -7,6 +7,9 @@ from rest_framework.views import APIView
 
 from cart.serializers import CartSerializer
 from cart.services import ShoppingCartManager
+from utils.logger import custom_logger
+
+logger = custom_logger(__name__)
 
 # Create your views here.
 
@@ -18,9 +21,11 @@ class CartRetrieveView(APIView):
 
     @extend_schema(tags=["Cart API"])
     def get(self, request: Request, *args, **kwargs):
+        logger.info("CartRetrieveView Get shopping cart")
         user_id = request.user.id
         sopping_cart_manager = ShoppingCartManager()
         shopping_cart = sopping_cart_manager.get_shopping_cart(user_id=user_id)
+        logger.debug("Get shopping cart from manager")
 
         processed_shopping_cart = [
             shopping_cart.item_map[key] for key in shopping_cart.item_map
@@ -37,6 +42,7 @@ class AddCartView(APIView):
 
     @extend_schema(tags=["Cart API"])
     def post(self, request: Request, *args, **kwargs):
+        logger.info("AddCartView Add to shopping cart")
         user_id = request.user.id
         sopping_cart_manager = ShoppingCartManager()
         shopping_cart = sopping_cart_manager.get_shopping_cart(user_id=user_id)
@@ -44,6 +50,7 @@ class AddCartView(APIView):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
+            logger.debug("Product is validated")
             shopping_cart.add_product(product_id=serializer.data.get("product"))
             response = {"message": "product successfully added to shopping cart"}
 
@@ -60,6 +67,7 @@ class RemoveCartView(APIView):
 
     @extend_schema(tags=["Cart API"])
     def post(self, request: Request, *args, **kwargs):
+        logger.info("RemoveCartView Remove from shopping cart")
         user_id = request.user.id
         sopping_cart_manager = ShoppingCartManager()
         shopping_cart = sopping_cart_manager.get_shopping_cart(user_id=user_id)
@@ -67,6 +75,7 @@ class RemoveCartView(APIView):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
+            logger.debug("Product is validated")
             remove_product = shopping_cart.remove_product(
                 product_id=serializer.data.get("product")
             )

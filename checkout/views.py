@@ -8,7 +8,9 @@ from rest_framework.views import APIView
 from cart.services import ShoppingCartManager
 from checkout.serializers import CheckoutSerializer
 from checkout.services import CheckoutService
+from utils.logger import custom_logger
 
+logger = custom_logger(__name__)
 
 # Create your views here.
 
@@ -21,14 +23,17 @@ class CheckoutView(APIView):
 
     @extend_schema(tags=["Checkout API"])
     def post(self, request: Request, *args, **kwargs):
+        logger.info("CheckoutView checkout")
         user_id = request.user.id
         sopping_cart_manager = ShoppingCartManager()
         shopping_cart = sopping_cart_manager.get_shopping_cart(user_id=user_id)
+        logger.debug("Getting shopping cart")
 
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
             delivery_date = serializer.data.get("delivery_date")
+            logger.debug("delivery_date is valid")
 
             order = CheckoutService.complete_order(
                 delivery_date=delivery_date,

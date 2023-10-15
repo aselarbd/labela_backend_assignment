@@ -2,6 +2,9 @@ from copy import deepcopy
 
 from checkout.models import OrderSummary, OrderDetails
 from product.models import Product
+from utils.logger import custom_logger
+
+logger = custom_logger(__name__)
 
 
 class CheckoutService:
@@ -14,6 +17,8 @@ class CheckoutService:
         )
         order_summary.save()
 
+        logger.debug("Created order summary")
+
         for _, item in shopping_cart.item_map.items():
             product = Product.objects.get(id=item["product_id"])
             order_details = OrderDetails(
@@ -21,6 +26,7 @@ class CheckoutService:
             )
             order_details.save()
 
+        logger.debug("Created order details")
         order = deepcopy(
             {
                 "order_id": order_summary.id,
