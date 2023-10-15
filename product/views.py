@@ -1,4 +1,5 @@
 from rest_framework import status, generics, mixins
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,6 +13,7 @@ class ProductListCreateView(APIView):
     """View for creating and listing products"""
 
     serializer_class = ProductDetailsSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request: Request, *args, **kwargs):
         products = Product.objects.all()
@@ -39,6 +41,7 @@ class ProductRetrieveUpdateDeleteView(
 
     serializer_class = ProductDetailsSerializer
     queryset = Product.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def get(self, request: Request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

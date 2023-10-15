@@ -39,7 +39,17 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "product",
+    "account",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+}
+
+AUTH_USER_MODEL = "account.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

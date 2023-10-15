@@ -3,6 +3,7 @@ from copy import deepcopy
 from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
 
+from account.models import User
 from .models import Product
 from .views import ProductListCreateView, ProductRetrieveUpdateDeleteView
 from django.urls import reverse
@@ -23,8 +24,14 @@ class ProductListCreateTest(APITestCase):
         self.factory = APIRequestFactory()
         self.view = ProductListCreateView.as_view()
         self.url = reverse("product_list_create")
+        self.user = User.objects.create_user(
+            username="admin",
+            password="admin",
+            email="admin@auto.com",
+            user_type="COMPANY",
+        )
 
-        # Create some initial posts
+        # Create some initial products
         Product.objects.create(
             name=SAMPLE_PRODUCT.get("name") + "_1",
             description=SAMPLE_PRODUCT.get("description") + "_1",
@@ -45,6 +52,7 @@ class ProductListCreateTest(APITestCase):
         sample_data["name"] = SAMPLE_PRODUCT.get("name") + "_3"
         sample_data["description"] = SAMPLE_PRODUCT.get("description") + "_3"
         request = self.factory.post(self.url, sample_data)
+        force_authenticate(request, user=self.user)
         response = self.view(request)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -55,6 +63,7 @@ class ProductListCreateTest(APITestCase):
 
     def test_list_products(self):
         request = self.factory.get(self.url)
+        force_authenticate(request, user=self.user)
         response = self.view(request)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -74,12 +83,19 @@ class ProductRetrieveUpdateDeleteTest(APITestCase):
             available_quantity=SAMPLE_PRODUCT.get("available_quantity"),
             active=SAMPLE_PRODUCT.get("active"),
         )
+        self.user = User.objects.create_user(
+            username="admin",
+            password="admin",
+            email="admin@auto.com",
+            user_type="COMPANY",
+        )
         self.url = reverse(
             "product_details_update_delete", kwargs={"pk": self.product.pk}
         )
 
     def test_get_product_by_id(self) -> None:
         request = self.factory.get(self.url)
+        force_authenticate(request, user=self.user)
         response = self.view(request, pk=self.product.pk)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -91,6 +107,7 @@ class ProductRetrieveUpdateDeleteTest(APITestCase):
         updated_data["name"] = SAMPLE_PRODUCT.get("name") + "_4"
         updated_data["description"] = SAMPLE_PRODUCT.get("description") + "_4"
         request = self.factory.put(self.url, updated_data, format="json")
+        force_authenticate(request, user=self.user)
         response = self.view(request, pk=self.product.pk)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -102,6 +119,7 @@ class ProductRetrieveUpdateDeleteTest(APITestCase):
 
     def test_delete_product(self):
         request = self.factory.delete(self.url)
+        force_authenticate(request, user=self.user)
         response = self.view(request, pk=self.product.pk)
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
