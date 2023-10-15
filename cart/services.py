@@ -14,7 +14,12 @@ class ShoppingCart:
             item["quantity"] = item["quantity"] + 1
         else:
             product = Product.objects.filter(id=product_id).first()
-            item = {"name": product.name, "product_id": product.id, "quantity": 1}
+            item = {
+                "name": product.name,
+                "product_id": product.id,
+                "quantity": 1,
+                "unit_price": product.price,
+            }
             self.item_map[product_id] = item
 
     def remove_product(self, product_id) -> bool:
@@ -27,6 +32,14 @@ class ShoppingCart:
             return True
 
         return False
+
+    def calculate_total(self) -> float:
+        """Calculate shopping cart total"""
+        price_list = [
+            self.item_map[key]["quantity"] * self.item_map[key]["unit_price"]
+            for key in self.item_map
+        ]
+        return sum(price_list)
 
 
 class ShoppingCartManager:
