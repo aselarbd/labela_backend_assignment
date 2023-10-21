@@ -30,7 +30,9 @@ class ProductListCreateView(APIView):
     @extend_schema(tags=["Product API"])
     def post(self, request: Request, *args, **kwargs):
         logger.info("ProductListCreateView adding product")
-        serializer = self.serializer_class(data={'created_by': request.user, **request.data})
+        serializer = self.serializer_class(
+            data={"created_by": request.user, **request.data}
+        )
         if serializer.is_valid():
             serializer.save()
 

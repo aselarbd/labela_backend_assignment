@@ -7,7 +7,6 @@ from utils.user_types import UserType
 
 
 class SignUpViewTestCase(APITestCase):
-
     def setUp(self):
         self.url = reverse("signup")
 
@@ -21,7 +20,12 @@ class SignUpViewTestCase(APITestCase):
         }
 
     def test_account_model(self):
-        account = User.objects.create(email="admin@auto.com", username="admin", password="admin", user_type=UserType.COMPANY.value)
+        account = User.objects.create(
+            email="admin@auto.com",
+            username="admin",
+            password="admin",
+            user_type=UserType.COMPANY.value,
+        )
         self.assertEqual(account.username, "admin")
         self.assertEqual(account.email, "admin@auto.com")
         self.assertEqual(account.user_type, UserType.COMPANY.value)
@@ -38,6 +42,6 @@ class SignUpViewTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_invalid_user_type_signup(self):
-        data = self._helper_generate_account_data(user_type='CUSTOMER')
+        data = self._helper_generate_account_data(user_type="CUSTOMER")
         response = self.client.post(self.url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
