@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import ValidationError
 
+from utils.user_types import UserType
 from .models import User
 
 
@@ -22,7 +23,7 @@ class SignUpSerializer(serializers.ModelSerializer):
         return super().validate(attrs)
 
     def validate_user_type(self, value):
-        if value not in ("COMPANY", "CLIENT"):
+        if value not in [user_type.value for user_type in UserType]:
             raise serializers.ValidationError(
                 "User_type can only be 'COMPANY' or 'CLIENT'."
             )
