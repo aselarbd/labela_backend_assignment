@@ -5,6 +5,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from product.models import Product
+from product.permissions import IsCreatorOrReadOnly
 from product.serializers import ProductDetailsSerializer, ProductListSerializer
 from utils.logger import custom_logger
 
@@ -17,7 +18,7 @@ class ProductListCreateView(APIView):
     """View for creating and listing products"""
 
     serializer_class = ProductDetailsSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsCreatorOrReadOnly,)
 
     @extend_schema(tags=["Product API"])
     def get(self, request: Request, *args, **kwargs):
@@ -30,11 +31,18 @@ class ProductListCreateView(APIView):
     @extend_schema(tags=["Product API"])
     def post(self, request: Request, *args, **kwargs):
         logger.info("ProductListCreateView adding product")
-        serializer = self.serializer_class(
-            data={"created_by": request.user, **request.data}
-        )
+        data = {"created_by": request.user, **request.data}
+        serializer = self.serializer_class(data=data)
         if serializer.is_valid():
-            serializer.save()
+            product = Product(
+                name=data.get("name"),
+                description=data.get("description"),
+                price=data.get("price"),
+                available_quantity=data.get("available_quantity"),
+                active=data.get("active"),
+                created_by=data.get("created_by"),
+            )
+            product.save()
 
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
@@ -51,7 +59,7 @@ class ProductRetrieveUpdateDeleteView(
 
     serializer_class = ProductDetailsSerializer
     queryset = Product.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsCreatorOrReadOnly,)
 
     @extend_schema(tags=["Product API"])
     def get(self, request: Request, *args, **kwargs):
