@@ -18,15 +18,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy our codebase into the container
 COPY . .
 
-RUN ./manage.py collectstatic --noinput
-RUN ./manage.py makemigrations
-RUN ./manage.py migrate
+#RUN ./manage.py collectstatic --noinput
+#RUN ./manage.py makemigrations
+#RUN  python manage.py migrate
 
 # Ops Parameters
-ENV WORKERS=2
-ENV PORT=80
-ENV PYTHONUNBUFFERED=1
-
-EXPOSE ${PORT}
-
-CMD uwsgi --http :${PORT} --processes ${WORKERS} --static-map /static=/static --module autocompany.wsgi:application
+#ENV WORKERS=2
+#ENV PORT=80
+#ENV PYTHONUNBUFFERED=1
+#
+#EXPOSE ${PORT}
+#
+#CMD uwsgi --http :${PORT} --processes ${WORKERS} --static-map /static=/static --module autocompany.wsgi:application
