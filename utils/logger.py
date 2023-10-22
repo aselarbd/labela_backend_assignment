@@ -1,9 +1,9 @@
 import logging
 
 # TODO migrate to .env file
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = "INFO"
 
-FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 logging.basicConfig(format=FORMAT, level=LOG_LEVEL)
 
 
