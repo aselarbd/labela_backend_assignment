@@ -1,5 +1,5 @@
 env/
-.env
+
 .git
 .gitlab-ci.yml
 example.env

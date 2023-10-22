@@ -18,6 +18,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy our codebase into the container
 COPY . .
 
+# Copy the .env file into the container
+COPY autocompany/.env /app/autocompany/.env
+
 #RUN ./manage.py collectstatic --noinput
 #RUN ./manage.py makemigrations
 #RUN  python manage.py migrate
@@ -25,7 +28,8 @@ COPY . .
 # Ops Parameters
 #ENV WORKERS=2
 #ENV PORT=80
-#ENV PYTHONUNBUFFERED=1
+ENV ENVIRONMENT=production
+ENV PYTHONUNBUFFERED=1
 #
 #EXPOSE ${PORT}
 #

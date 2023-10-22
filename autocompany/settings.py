@@ -12,12 +12,16 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
+import environ
+
 from autocompany.configs import (
     POSTGRES_DB_NAME,
     POSTGRES_USER_NAME,
     POSTGRES_PASSWORD,
     POSTGRES_HOST,
     POSTGRES_PORT,
+    SECRET_KEY_FROM_ENV,
+    DEBUG_FROM_ENV,
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,10 +31,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-7+om-9__!v%1ud!6-wwkf0hs0x7v1myz9jn#e9d8n@v#1^qk3p"
+SECRET_KEY = SECRET_KEY_FROM_ENV
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = DEBUG_FROM_ENV
 
 ALLOWED_HOSTS = ["*"]
 

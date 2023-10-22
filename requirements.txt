@@ -4,6 +4,7 @@ black==23.9.1
 click==8.1.7
 Django==4.0.3
 django-cors-headers==4.3.0
+django-environ==0.11.2
 djangorestframework==3.14.0
 drf-spectacular==0.26.5
 drf-spectacular-sidecar==2023.10.1
