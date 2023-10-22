@@ -1,0 +1,8 @@
+
+
+LOG_LEVEL = "INFO"
+POSTGRES_DB_NAME = "postgres"
+POSTGRES_USER_NAME = "postgres"
+POSTGRES_PASSWORD = "password"
+POSTGRES_HOST = "localhost"
+POSTGRES_PORT = "5432"
