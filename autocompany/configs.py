@@ -1,5 +1,3 @@
-
-
 LOG_LEVEL = "INFO"
 POSTGRES_DB_NAME = "postgres"
 POSTGRES_USER_NAME = "postgres"
